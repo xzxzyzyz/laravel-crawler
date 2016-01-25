@@ -60,11 +60,12 @@ class Crawler
     /**
      * 取得済みのFeedを整形して返却する
      *
+     * @param  boolean $thumbnail
      * @return array
      */
-    public function fetch()
+    public function fetch($thumbnail = true)
     {
-        return array_map(function($item) {
+        return array_map(function($item) use($thumbnail) {
                     mb_language("Japanese");
                     $description = strip_tags($item->get_description());
                     $description = mb_convert_encoding($description, 'HTML-ENTITIES', 'UTF-8');
@@ -76,7 +77,7 @@ class Crawler
                         'description' => str_limit($description, 250),
                         'link' => $item->get_link(),
                         'dc_date' => $item->get_date('Y-m-d H:i:s'),
-                        'image' => $this->thumbnail->read($item->get_link())
+                        'image' => $thumbnail? $this->thumbnail->read($item->get_link()): null
                     ];
                 },
                 array_filter($this->items, function($item) {
