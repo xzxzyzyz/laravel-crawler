@@ -166,7 +166,7 @@ class ScrapingThumbnail
      * 取得済みのサムネイル
      * @return string
      */
-    protected function get()
+    public function get()
     {
         return $this->image;
     }
